@@ -7,22 +7,38 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KnPDriver", "KnPDriver\KnPD
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KnPUser", "KnPUser\KnPUser.vcxproj", "{2A5ED231-CDA2-401B-8DF3-585C4E154E7A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KdMapper", "KdMapper\KdMapper.vcxproj", "{E9784DBE-66E4-49C8-81AE-FD1D0CBBF9B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{03FFE09A-9986-4E64-AB13-65A25EF225B8}.Debug|x64.ActiveCfg = Debug|x64
 		{03FFE09A-9986-4E64-AB13-65A25EF225B8}.Debug|x64.Build.0 = Debug|x64
 		{03FFE09A-9986-4E64-AB13-65A25EF225B8}.Debug|x64.Deploy.0 = Debug|x64
+		{03FFE09A-9986-4E64-AB13-65A25EF225B8}.Debug|x86.ActiveCfg = Debug|x64
 		{03FFE09A-9986-4E64-AB13-65A25EF225B8}.Release|x64.ActiveCfg = Release|x64
 		{03FFE09A-9986-4E64-AB13-65A25EF225B8}.Release|x64.Build.0 = Release|x64
 		{03FFE09A-9986-4E64-AB13-65A25EF225B8}.Release|x64.Deploy.0 = Release|x64
+		{03FFE09A-9986-4E64-AB13-65A25EF225B8}.Release|x86.ActiveCfg = Release|x64
 		{2A5ED231-CDA2-401B-8DF3-585C4E154E7A}.Debug|x64.ActiveCfg = Debug|x64
 		{2A5ED231-CDA2-401B-8DF3-585C4E154E7A}.Debug|x64.Build.0 = Debug|x64
+		{2A5ED231-CDA2-401B-8DF3-585C4E154E7A}.Debug|x86.ActiveCfg = Debug|x64
 		{2A5ED231-CDA2-401B-8DF3-585C4E154E7A}.Release|x64.ActiveCfg = Release|x64
 		{2A5ED231-CDA2-401B-8DF3-585C4E154E7A}.Release|x64.Build.0 = Release|x64
+		{2A5ED231-CDA2-401B-8DF3-585C4E154E7A}.Release|x86.ActiveCfg = Release|x64
+		{E9784DBE-66E4-49C8-81AE-FD1D0CBBF9B0}.Debug|x64.ActiveCfg = Debug|x64
+		{E9784DBE-66E4-49C8-81AE-FD1D0CBBF9B0}.Debug|x64.Build.0 = Debug|x64
+		{E9784DBE-66E4-49C8-81AE-FD1D0CBBF9B0}.Debug|x86.ActiveCfg = Debug|Win32
+		{E9784DBE-66E4-49C8-81AE-FD1D0CBBF9B0}.Debug|x86.Build.0 = Debug|Win32
+		{E9784DBE-66E4-49C8-81AE-FD1D0CBBF9B0}.Release|x64.ActiveCfg = Release|x64
+		{E9784DBE-66E4-49C8-81AE-FD1D0CBBF9B0}.Release|x64.Build.0 = Release|x64
+		{E9784DBE-66E4-49C8-81AE-FD1D0CBBF9B0}.Release|x86.ActiveCfg = Release|Win32
+		{E9784DBE-66E4-49C8-81AE-FD1D0CBBF9B0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

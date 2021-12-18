@@ -3,6 +3,8 @@
 #include "hook.h"
 #include <iostream>
 #include <assert.h>
+#include <kdmapper.hpp>
+
 
 typedef struct
 {
@@ -51,8 +53,69 @@ float GetDistance3D(vec3d_f m_pos, vec3d_f en_pos)
 	return (float)(sqrt(((en_pos.x - m_pos.x) * (en_pos.x - m_pos.x)) + ((en_pos.y - m_pos.y) * (en_pos.y - m_pos.y)) + ((en_pos.z - m_pos.z) * (en_pos.z - m_pos.z))));
 }
 
+std::wstring GetExeDir()
+{
+	wchar_t NPath[MAX_PATH];
+	GetModuleFileNameW(NULL, NPath, MAX_PATH);
+	std::wstring path(NPath);
+	size_t slash = path.find_last_of(L"\\");
+	return path.substr(0, slash);
+}
+
+
+bool callbackExample(ULONG64* param1, ULONG64* param2, ULONG64 allocationPtr, ULONG64 allocationSize, ULONG64 mdlptr) {
+	UNREFERENCED_PARAMETER(param1);
+	UNREFERENCED_PARAMETER(param2);
+	UNREFERENCED_PARAMETER(allocationPtr);
+	UNREFERENCED_PARAMETER(allocationSize);
+	UNREFERENCED_PARAMETER(mdlptr);
+	Log("[+] Callback example called" << std::endl);
+
+	/*
+	This callback occurs before call driver entry and
+	can be usefull to pass more customized params in
+	the last step of the mapping procedure since you
+	know now the mapping address and other things
+	*/
+	return true;
+}
+
 int main()
 {
+	const std::wstring driver_path = GetExeDir() + L"\\KnPDriver.sys";
+
+	HANDLE iqvw64e_device_handle;
+	iqvw64e_device_handle = intel_driver::Load();
+
+	if (iqvw64e_device_handle == INVALID_HANDLE_VALUE)
+		return -1;
+
+	std::vector<uint8_t> raw_image = { 0 };
+	if (!utils::ReadFileToMemory(driver_path, &raw_image)) {
+		Log(L"[-] Failed to read image to memory" << std::endl);
+		intel_driver::Unload(iqvw64e_device_handle);
+		return -1;
+	}
+
+	NTSTATUS exitCode = 0;
+	if (!kdmapper::MapDriver(iqvw64e_device_handle, raw_image.data(), 0, 0, free, true, false, false, callbackExample, &exitCode)) {
+		Log(L"[-] Failed to map " << driver_path << std::endl);
+		intel_driver::Unload(iqvw64e_device_handle);
+		return -1;
+	}
+
+	if (!intel_driver::Unload(iqvw64e_device_handle)) {
+		Log(L"[-] Warning failed to fully unload vulnerable driver " << std::endl);
+	}
+	Log(L"[+] success" << std::endl);
+
+	while (1)
+	{
+
+	}
+
+	return 0;
+
 	HWND hwnd = FindWindow(NULL, "AssaultCube");
 	
 	if (!hwnd)
@@ -70,8 +133,6 @@ int main()
 	std::cout << pID << std::endl;
 	std::cout << ac_client.base << std::endl;
 	std::cout << ac_client.size << std::endl;
-	
-	
 
 	const uint64_t ofHealth = 0xF8ULL;
 	const uint64_t ofName = 0x225ULL;
@@ -130,6 +191,3 @@ int main()
 
 	return 0;
 }
-
-
-
