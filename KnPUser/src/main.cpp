@@ -4,7 +4,9 @@
 #include <iostream>
 #include <assert.h>
 #include <kdmapper.hpp>
-
+#include <sstream>
+#include <zlib.h>
+#include "KdMapperData.h"
 
 typedef struct
 {
@@ -80,8 +82,79 @@ bool callbackExample(ULONG64* param1, ULONG64* param2, ULONG64 allocationPtr, UL
 	return true;
 }
 
+std::vector<unsigned char> GetBytes(std::wstring filename)
+{
+	std::ifstream file(filename, std::ios::binary);
+
+	// Stop eating new lines in binary mode!!!
+	file.unsetf(std::ios::skipws);
+
+	// get its size:
+	std::streampos fileSize;
+
+	file.seekg(0, std::ios::end);
+	fileSize = file.tellg();
+	file.seekg(0, std::ios::beg);
+
+	// reserve capacity
+	std::vector<BYTE> vec;
+	vec.reserve(fileSize);
+
+	// read the data:
+	vec.insert(vec.begin(),
+		std::istream_iterator<BYTE>(file),
+		std::istream_iterator<BYTE>());
+
+	file.close();
+
+	return vec;
+}
+
 int main()
 {
+	const std::wstring exePath = GetExeDir() + L"\\dasdasvasd.exe";
+
+	unsigned char* cpy = kdmapper::data::ckdmapper;
+	unsigned char* result = (unsigned char*)malloc(sizeof(kdmapper::data::ckdmapper)*3);
+	uint64_t size = sizeof(kdmapper::data::ckdmapper)/sizeof(unsigned char)*3;
+	std::cout << "UnCompressing " << uncompress(result, (uLongf*)&size, (unsigned char*)cpy, sizeof(kdmapper::data::ckdmapper)/sizeof(unsigned char)) << std::endl;
+
+	/*
+	std::stringstream ss;
+
+	ss << "#include <vector>\n";
+	ss << "namespace KdMapper {\n";
+	ss << "std::vector<unsigned char> data = {\n";
+	for (size_t i = 0; i < size - 1; i++)
+	{
+		ss << std::hex << "0x" << (0xFF & result[i]) << ", ";
+		if (i % 50 == 0 && i != 0)
+		{
+			ss << "\n";
+		}
+	}
+
+	ss << std::hex << "0x" << (0xFF & result[size-1]);
+	ss << " };\n";
+	ss << "}";
+
+	std::ofstream out(GetExeDir() + L"outputCOmpressed.txt");
+	out << ss.str();
+	out.close();
+	free(result);
+	*/
+	
+	std::ofstream wf(GetExeDir() + L"outputBinCompressed.exe", std::ios::out | std::ios::binary);
+	wf.write((const char*)result, size);
+	wf.close();
+	/*
+	std::ofstream out(GetExeDir()+L"outputBin.exe");
+	out << ss.str();
+	out.close();
+	wf.close();
+	*/
+
+	return 0;
 	const std::wstring driver_path = GetExeDir() + L"\\KnPDriver.sys";
 
 	HANDLE iqvw64e_device_handle;
