@@ -6,7 +6,7 @@
 #include <kdmapper.hpp>
 #include <sstream>
 #include <zlib.h>
-#include "KdMapperData.h"
+#include "kdmapper.h"
 
 typedef struct
 {
