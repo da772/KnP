@@ -91,7 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\hook.h" />
-    <ClInclude Include="src\KdMapperData.h" />
+    <ClInclude Include="src\kdmapper.h" />
     <ClInclude Include="src\memory.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

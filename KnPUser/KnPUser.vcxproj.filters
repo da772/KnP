@@ -32,7 +32,7 @@
     <ClInclude Include="src\memory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\KdMapperData.h">
+    <ClInclude Include="src\kdmapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
