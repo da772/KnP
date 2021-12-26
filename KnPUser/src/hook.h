@@ -14,7 +14,7 @@ namespace hook {
 	inline uint64_t call_hook(const Args ... args)
 	{
 		LoadLibraryA("user32.dll");
-		void* hooked_func = GetProcAddress(LoadLibrary("win32u.dll"), "NtDxgkGetTrackedWorkloadStatistics");
+		void* hooked_func = GetProcAddress(LoadLibraryA("win32u.dll"), "NtDxgkGetTrackedWorkloadStatistics");
 
 		const auto func = static_cast<uint64_t(__stdcall*)(Args...)>(hooked_func);
 
@@ -36,7 +36,7 @@ namespace hook {
 
 	using unique_handle = std::unique_ptr<HANDLE, HandleDisposer>;
 
-	uint32_t get_process_id(std::string process_name);
+	uint32_t get_process_id(std::wstring process_name);
 
 	namespace wingdi
 	{

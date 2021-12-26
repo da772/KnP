@@ -42,9 +42,9 @@ namespace hook
 		return result;
 	}
 
-	uint32_t get_process_id(std::string process_name)
+	uint32_t get_process_id(std::wstring process_name)
 	{
-		PROCESSENTRY32 processEntry;
+		PROCESSENTRY32W processEntry;
 
 		const unique_handle snapshot_handle(CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL));
 
@@ -55,7 +55,7 @@ namespace hook
 
 		processEntry.dwSize = sizeof(MODULEENTRY32);
 
-		while (Process32Next(snapshot_handle.get(), &processEntry) == TRUE)
+		while (Process32NextW(snapshot_handle.get(), &processEntry) == TRUE)
 		{
 			if (process_name.compare(processEntry.szExeFile) == NULL)
 			{

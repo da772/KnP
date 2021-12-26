@@ -21,9 +21,12 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{e9784dbe-66e4-49c8-81ae-fd1d0cbbf9b0}</ProjectGuid>
-    <RootNamespace>KdMapper</RootNamespace>
+    <ProjectGuid>{826b7291-ab3a-48f9-b0f2-9c6209c9e0a8}</ProjectGuid>
+    <RootNamespace>Package</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -116,12 +119,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -131,7 +137,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,23 +144,19 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>"$(DevEnvDir)devenv" "$(SolutionDir)KnP.sln" /Build $(configuration) /project "$(SolutionDir)zlib\zlib.vcxproj"
+"$(DevEnvDir)devenv" "$(SolutionDir)KnP.sln" /Build $(configuration) /project "$(SolutionDir)KdMapper\KdMapper.vcxproj"
+"$(DevEnvDir)devenv" "$(SolutionDir)KnP.sln" /Build $(configuration) /project "$(SolutionDir)KnPDriver\KnPDriver.vcxproj"
+"$(DevEnvDir)devenv" "$(SolutionDir)KnP.sln" /Build $(configuration) /project "$(SolutionDir)KnPWrap\KnPWrap.vcxproj"
+"$(TargetDir)KnPWrap.exe" "$(TargetDir)KdMapper.exe" "$(SolutionDir)KnPUser\src\generated\kdmapper.h" "kdmapper"
+"$(TargetDir)KnPWrap.exe" "$(TargetDir)KnPDriver.sys" "$(SolutionDir)KnPUser\src\generated\knpdriver.h" "knpdriver"
+"$(DevEnvDir)devenv" "$(SolutionDir)KnP.sln" /Build $(configuration) /project "$(SolutionDir)KnPUser\KnPUser.vcxproj"
+
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\intel_driver.cpp" />
-    <ClCompile Include="src\kdmapper.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\portable_executable.cpp" />
-    <ClCompile Include="src\service.cpp" />
-    <ClCompile Include="src\utils.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\intel_driver.hpp" />
-    <ClInclude Include="src\intel_driver_resource.hpp" />
-    <ClInclude Include="src\kdmapper.hpp" />
-    <ClInclude Include="src\nt.hpp" />
-    <ClInclude Include="src\portable_executable.hpp" />
-    <ClInclude Include="src\service.hpp" />
-    <ClInclude Include="src\utils.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
