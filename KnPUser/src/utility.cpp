@@ -61,7 +61,7 @@ namespace utility {
 
 		LPWSTR cmdLine = const_cast<wchar_t*>(cmd.c_str());
 
-		// Create the child process. 
+		//TODO: Look into ShellExecuteEx for elevated process
 		bSuccess = CreateProcessW(NULL,
 			cmdLine,     // command line 
 			NULL,          // process security attributes 
