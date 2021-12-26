@@ -2,7 +2,6 @@
 #include "exported.h"
 #include <wingdi.h>
 
-
 bool hook::call_kernel_function(void* kernel_function_address)
 {
 	if (!kernel_function_address)
@@ -15,6 +14,7 @@ bool hook::call_kernel_function(void* kernel_function_address)
 		return false;
 	}
 	
+
 	BYTE orig[14];
 
 	BYTE shell_code[] = { 0x48, 0xB8 }; // mov eax, xxx
@@ -52,8 +52,10 @@ NTSTATUS hook::hook_handler(PVOID called_param)
 		moduleInfo = memory::get_module_base_x64(process, ModuleName);
 		instructions->module_info = moduleInfo;
 		RtlFreeUnicodeString(&ModuleName);
+		return STATUS_SUCCESS;
 	}
-	else if (instructions->action == ACTION_WRITE_KERNEL)
+	
+	if (instructions->action == ACTION_WRITE_KERNEL)
 	{
 		if (instructions->addr < 0x7FFFFFFFFFFF && instructions->addr > 0)
 		{
@@ -73,14 +75,21 @@ NTSTATUS hook::hook_handler(PVOID called_param)
 			memory::write_kernel_memory((HANDLE)instructions->pid, instructions->addr, kernelBuff, instructions->size);
 			ExFreePool(kernelBuff);
 		}
-	} else if (instructions->action == ACTION_READ_KERNEL)
+
+		return STATUS_SUCCESS;
+	}
+
+	if (instructions->action == ACTION_READ_KERNEL)
 	{
 		if (instructions->addr < 0x7FFFFFFFFFFF && instructions->addr > 0)
 		{
 			memory::read_kernel_memory((HANDLE)instructions->pid, instructions->addr, instructions->output, instructions->size);
+			return STATUS_SUCCESS;
 		}
+		return STATUS_UNSUCCESSFUL;
 	}
-	else if (instructions->action == ACTION_DRAWBOX)
+	
+	if (instructions->action == ACTION_DRAWBOX)
 	{
 		HDC hdc = exported::wingdi::NtUserGetDC(NULL);
 		if (!hdc)
@@ -94,10 +103,12 @@ NTSTATUS hook::hook_handler(PVOID called_param)
 		exported::wingdi::FrameRect(hdc, &rect, brush, instructions->t);
 		exported::wingdi::NtUserReleaseDC(hdc);
 		exported::wingdi::NtGdiDeleteObjectApp(brush);
+
+		return STATUS_SUCCESS;
 	}
-	else if (instructions->action == ACTION_DRAWTEXT)
+	
+	if (instructions->action == ACTION_DRAWTEXT)
 	{
-		
 		HDC hdc = exported::wingdi::NtUserGetDC(NULL);
 
 		if (!hdc)
@@ -110,6 +121,8 @@ NTSTATUS hook::hook_handler(PVOID called_param)
 		int res = exported::wingdi::DrawTextW(hdc, L"TEST123", 7, &rect, 0x00);
 		DbgPrint("[KnP] Drawing text %d %d\n", res);
 		*(int*)instructions->output = res;
+
+		return STATUS_SUCCESS;
 	}
 
 	return STATUS_SUCCESS;

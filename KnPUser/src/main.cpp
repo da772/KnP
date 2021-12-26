@@ -58,8 +58,6 @@ int main()
 	_wremove(driver_path.c_str());
 	_wremove(kdmap_path.c_str());
 
-	return 0;
-
 	HWND hwnd = FindWindowA(NULL, "AssaultCube");
 	
 	if (!hwnd)
@@ -86,6 +84,7 @@ int main()
 	const uint64_t ofPlayer = 0x509B74ULL;
 	const uint64_t ofXPos = 0x4ULL;
 	const uint64_t ofTeam = 0x32CULL;
+	const uint64_t ofAmmo = 0x0150ULL;
 
 	const uint32_t playerCount = ::hook::memory::read_memory<uint32_t>(baseAddr + 0xCULL, pID);
 
@@ -104,6 +103,21 @@ int main()
 		::hook::memory::read_memory(ofViewMat, matrix, sizeof(matrix), pID);
 
 		vec3d_f playerPos = ::hook::memory::read_memory<vec3d_f>(clientAddr + ofEntity + ofXPos, pID);
+		int health = ::hook::memory::read_memory<int>(clientAddr + ofHealth, pID);
+
+		if (health < 100)
+		{
+			::hook::memory::write_memory<int>(clientAddr + ofHealth, 100, pID);
+		}
+
+		int ammo = ::hook::memory::read_memory<int>(clientAddr + ofAmmo, pID);
+
+		if (ammo < 100)
+		{
+			::hook::memory::write_memory<int>(clientAddr + ofAmmo, 100, pID);
+		}
+
+		std::cout << "HEALTH: " << health << std::endl;
 
 		for (uint32_t i = 0; i < playerCount; i++)
 		{
@@ -126,7 +140,7 @@ int main()
 				::hook::wingdi::draw_box((int)xPos, (int)yPos, 50, 50, 2, (int)color.x, (int)color.y, (int)color.z);
 			}
 		}
-		//Sleep(5);
+		//Sleep(16);
 	}
 
 	

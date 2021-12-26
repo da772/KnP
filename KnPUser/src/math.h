@@ -17,7 +17,7 @@ namespace math
 		float x, y, z, w;
 	} vec4d_f;
 
-	bool WorldToScreen(vec3d_f pos, vec4d_f clipCoords, vec4d_f NDC, vec3d_f screen, float matrix[16], int windowWidth, int windowHeight);
+	bool WorldToScreen(const vec3d_f& pos, vec4d_f& clipCoords, vec4d_f& NDC, vec3d_f& screen, float matrix[16],const int& windowWidth,const int& windowHeight);
 
 	float GetDistance3D(vec3d_f m_pos, vec3d_f en_pos);
 }

@@ -4,7 +4,7 @@
 namespace math
 {
 
-	bool WorldToScreen(vec3d_f pos, vec4d_f clipCoords, vec4d_f NDC, vec3d_f screen, float matrix[16], int windowWidth, int windowHeight)
+	bool WorldToScreen(const vec3d_f& pos, vec4d_f& clipCoords, vec4d_f& NDC, vec3d_f& screen, float matrix[16], const int& windowWidth, const int& windowHeight)
 	{
 
 		clipCoords.x = pos.x * matrix[0] + pos.y * matrix[4] + pos.z * matrix[8] + matrix[12];
