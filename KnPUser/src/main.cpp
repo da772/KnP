@@ -10,6 +10,8 @@
 #include "utility.h"
 #include <stdio.h>
 #include "math.h"
+#include <vector>
+#include <sstream>
 
 math::vec3d_f screen;
 math::vec4d_f clipCoords;
@@ -40,6 +42,9 @@ int main()
 	wf.close();
 
 	free(result);
+
+
+	return 0;
 
 	std::wstring command = utility::get_exe_dir() + L"\\outputBinCompressed.exe " + driver_path;
 
@@ -91,7 +96,7 @@ int main()
 	DWORD clientAddr = ::hook::memory::read_memory<DWORD>(baseAddr, pID);
 	DWORD entityAddr = ::hook::memory::read_memory<DWORD>(baseAddr+ofEntity, pID);
 
-	UINT_PTR sig = ::hook::memory::scan_signature(ac_client.base, ac_client.size, { 0x00 }, "", pID);
+	//UINT_PTR sig = ::hook::memory::scan_signature(ac_client.base, ac_client.size, "AE ?? AB ??", pID);
 
 	const uint32_t clientTeam = ::hook::memory::read_memory<uint32_t>(clientAddr + ofTeam, pID);
 

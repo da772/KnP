@@ -1,4 +1,7 @@
 #include "hook.h"
+#include <vector>
+#include <string>
+#include <assert.h>
 
 namespace hook
 {
@@ -110,31 +113,71 @@ namespace hook
 		::hook::call_hook(&instructions);
 	}
 
-	UINT_PTR memory::scan_signature(UINT_PTR readAddr, ULONG size, const byte sig[], const char* mask, ULONG pid)
+	UINT_PTR memory::scan_signature(UINT_PTR readAddr, ULONG size, const char* mask, ULONG pid)
 	{
-		ULONG sigSize = strlen(mask);
-		byte* buffer = (byte*)malloc(sizeof(byte) * sigSize);
-		for (ULONG i = 0; i < size; i++)
-		{
-			memory::read_memory(readAddr+i, buffer, sigSize * sizeof(byte), pid);
+		std::vector<uint16_t> data;
+		std::string strMask(mask);
 
-			for (ULONG j = 0; j < sigSize; j++)
+		for (size_t i = 0; i < strMask.size(); i++)
+		{
+			if (strMask[i] == ' ')
 			{
-				if (mask[j] == '?')
+				continue;
+			}
+
+			if (i + 1 > strMask.size())
+			{
+				return NULL;
+			}
+
+			std::string s = strMask.substr(i, 2);
+
+			if (s.find("?") != std::string::npos)
+			{
+				data.push_back(0x100);
+				i++;
+				continue;
+			}
+
+			data.push_back(std::stoi(s, nullptr, 16));
+			i++;
+		}
+
+		byte* buffer = (byte*)malloc(sizeof(byte) * data.size());
+		assert(buffer != NULL);
+
+		for (size_t i = 0; i < size; i++)
+		{
+			if (i + data.size() > size)
+			{
+				break;
+			}
+
+			memory::read_memory(readAddr + i, buffer, data.size() * sizeof(byte), pid);
+			bool found = true;
+
+			for (size_t j = 0; j < data.size(); j++)
+			{
+				if (data[j] > 0xff)
 				{
 					continue;
 				}
 
-				if (buffer[j] != sig[j])
+				if (buffer[i + j] != static_cast<byte>(data[j]))
 				{
+					found = false;
 					break;
 				}
-
-				if (j == sigSize-1) return readAddr + i;
 			}
 
+			if (found)
+			{
+				free(buffer);
+				return i;
+			}
 		}
 
+		free(buffer);
 		return NULL;
 	}
 

@@ -50,7 +50,7 @@ namespace hook {
 		std::string read_memory_string(UINT_PTR readAddr, ULONG pid);
 		std::wstring read_memory_wstring(UINT_PTR readAddr, ULONG pid);
 		void read_memory(UINT_PTR readAddr, void* output, size_t size, ULONG pid);
-		UINT_PTR scan_signature(UINT_PTR readAddr, ULONG size, const byte sig[], const char* mask, ULONG pid);
+		UINT_PTR scan_signature(UINT_PTR readAddr, ULONG size, const char* mask, ULONG pid);
 
 		template<class T>
 		inline T read_memory(UINT_PTR readAddr, ULONG pid)
