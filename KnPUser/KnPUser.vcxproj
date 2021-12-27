@@ -85,19 +85,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\hook.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\math.cpp" />
-    <ClCompile Include="src\memory.cpp" />
-    <ClCompile Include="src\utility.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\generated\kdmapper.h" />
-    <ClInclude Include="src\generated\knpdriver.h" />
-    <ClInclude Include="src\hook.h" />
-    <ClInclude Include="src\math.h" />
-    <ClInclude Include="src\memory.h" />
-    <ClInclude Include="src\utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
