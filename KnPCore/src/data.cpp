@@ -17,7 +17,7 @@ namespace KnP {
 
 			knpdriver result;
 			result.data = (unsigned char*)malloc(::knpdriver::size * sizeof(unsigned char));
-			assert(result);
+			assert(result.data != NULL);
 			result.size = ::knpdriver::size;
 
 			uncompress(result.data, (uLongf*)&result.size, (unsigned char*)::knpdriver::data, sizeof(::knpdriver::data));
@@ -29,7 +29,7 @@ namespace KnP {
 		{
 			kdmapper result;
 			result.data = (unsigned char*)malloc(::kdmapper::size * sizeof(unsigned char));
-			assert(result);
+			assert(result.data != NULL);
 			result.size = ::kdmapper::size;
 
 			uncompress(result.data, (uLongf*)&result.size, (unsigned char*)::kdmapper::data, sizeof(::kdmapper::data));
