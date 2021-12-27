@@ -33,6 +33,7 @@ namespace KnP
 			std::wstring read_memory_wstring(UINT_PTR readAddr, ULONG pid);
 			void read_memory(UINT_PTR readAddr, void* output, size_t size, ULONG pid);
 			UINT_PTR scan_signature(UINT_PTR readAddr, ULONG size, const char* mask, ULONG pid);
+			KnP::memory::ModuleInfo get_module_information(const char* module_name, ULONG pid);
 
 			template<class T>
 			inline T read_memory(UINT_PTR readAddr, ULONG pid)

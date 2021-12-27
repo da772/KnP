@@ -63,6 +63,17 @@ namespace KnP {
 			return result;
 		}
 
+		KnP::memory::ModuleInfo memory::get_module_information(const char* module_name, ULONG pid)
+		{
+			KnP::memory::MEMORY instructions = { 0 };
+			instructions.pid = pid;
+			instructions.action = ACTION_REQBASE;
+			instructions.module_name = module_name;
+			hook::call_hook(&instructions);
+
+			return instructions.module_info;
+		}
+
 		std::wstring memory::read_memory_wstring(UINT_PTR readAddr, ULONG pid)
 		{
 			std::wstring result = L"";

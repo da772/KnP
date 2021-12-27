@@ -33,7 +33,6 @@ int main()
 
 	KnP::utility::exec_info info = KnP::data::finalize_data(&driver, &mapper);
 
-
 	std::cout << (int)info.exit_code << std::endl;
 
 	HWND hwnd = FindWindowA(NULL, "AssaultCube");
@@ -52,7 +51,7 @@ int main()
 		return -1;
 	}
 
-	KnP::memory::ModuleInfo ac_client = KnP::memory::get_module_information("ac_client.exe", pID);
+	KnP::memory::ModuleInfo ac_client = KnP::hook::memory::get_module_information("ac_client.exe", pID);
 	DWORD baseAddr = 0x00400000+ 0x0010F4F4;
 	std::cout << pID << std::endl;
 	std::cout << ac_client.base << std::endl;
