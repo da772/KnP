@@ -40,7 +40,7 @@ namespace KnP {
 		{
 			std::vector<uint16_t> data;
 			std::string strMask(pattern);
-
+			
 			for (size_t i = 0; i < strMask.size(); i++)
 			{
 				if (strMask[i] == ' ')
@@ -83,6 +83,38 @@ namespace KnP {
 					}
 
 					if (src[i + j] != static_cast<byte>(data[j]))
+					{
+						found = false;
+						break;
+					}
+				}
+
+				if (found)
+				{
+					return &src[i];
+				}
+			}
+
+			return NULL;
+		}
+
+		unsigned char* find_memory_string(unsigned char* src, size_t size, const char* str, size_t strSize)
+		{
+			size_t sz = strSize;
+
+			for (size_t i = 0; i < size; i++)
+			{
+				if (i + sz > size)
+				{
+					break;
+				}
+
+				bool found = true;
+
+				for (size_t j = 0; j < sz; j++)
+				{
+				
+					if (src[i + j] != static_cast<byte>(str[j]))
 					{
 						found = false;
 						break;

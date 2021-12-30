@@ -7,6 +7,9 @@ namespace KnP {
 
 	namespace hook
 	{
+		char lib[255] = "win32u.dll";
+		char module_name[255] = "NtDxgkGetTrackedWorkloadStatistics";
+
 		int wingdi::draw_box(int x, int y, int w, int h, int t, int r, int g, int b)
 		{
 			KnP::memory::MEMORY instruction;
@@ -41,6 +44,7 @@ namespace KnP {
 			instruction.action = ACTION_DRAWTEXT;
 			instruction.output = malloc(sizeof(int));
 			call_hook(&instruction);
+			assert(instruction.output != NULL);
 			int result = *(int*)instruction.output;
 			free(instruction.output);
 

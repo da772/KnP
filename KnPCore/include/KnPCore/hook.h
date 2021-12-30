@@ -8,12 +8,15 @@
 namespace KnP
 {
 	namespace hook {
+		
+		extern char lib[255];
+		extern char module_name[255];
 
 		template<typename ... Args>
 		inline uint64_t call_hook(const Args ... args)
 		{
 			LoadLibraryA("user32.dll");
-			void* hooked_func = GetProcAddress(LoadLibraryA("win32u.dll"), "NtDxgkGetTrackedWorkloadStatistics");
+			void* hooked_func = GetProcAddress(LoadLibraryA(lib), module_name);
 
 			const auto func = static_cast<uint64_t(__stdcall*)(Args...)>(hooked_func);
 

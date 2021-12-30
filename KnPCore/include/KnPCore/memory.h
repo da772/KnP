@@ -49,6 +49,7 @@ namespace KnP
 
 		ModuleInfo get_module_information(const char* module_name, ULONG pid);
 		unsigned char* find_memory_pattern(unsigned char* src, size_t size, const char* pattern);
+		unsigned char* find_memory_string(unsigned char* src, size_t size, const char* str, size_t strSize);
 		uint32_t get_process_id(std::wstring process_name);
 	}
 }

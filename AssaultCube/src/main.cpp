@@ -29,11 +29,20 @@ int main()
 	KnP::data::knpdriver driver = KnP::data::create_driver();
 	KnP::data::kdmapper mapper = KnP::data::create_mapper();
 
-	KnP::data::modify_driver(&driver);
+	unsigned char first[] = { 0x49, 0xBA }; // mov r10
+	unsigned char last[] = { 0x90, 0x90, 0x41, 0xFF, 0xE2 }; // nop nop jmp r10
+	
+	bool mod = KnP::data::modify_driver_bytecode(&driver, first, sizeof(first), last, sizeof(last)) &&
+		KnP::data::modify_driver_module_name(&driver, "NtDxgkGetTrackedWorkloadStatistics") &&
+		KnP::data::modify_driver_module_location(&driver, "\\SystemRoot\\System32\\drivers\\dxgkrnl.sys");
+
+	
+	if (!mod)
+	{
+		return -1;
+	}
 
 	KnP::utility::exec_info info = KnP::data::finalize_data(&driver, &mapper);
-
-	std::cout << (int)info.exit_code << std::endl;
 
 	HWND hwnd = FindWindowA(NULL, "AssaultCube");
 	
@@ -57,18 +66,16 @@ int main()
 	std::cout << ac_client.base << std::endl;
 	std::cout << ac_client.size << std::endl;
 
-	
-
-	const uint64_t ofHealth = 0xF8ULL;
-	const uint64_t ofName = 0x225ULL;
-	const uint64_t ofSpeed = 0x08ULL;
-	const uint64_t ofViewMat = 0x501AE8ULL;
-	const uint64_t ofEntity = 0x4ULL;
-	const uint64_t ofPlayer = 0x509B74ULL;
-	const uint64_t ofXPos = 0x4ULL;
-	const uint64_t ofTeam = 0x32CULL;
-	const uint64_t ofAmmo = 0x0150ULL;
-	const uint64_t ofPlayerCount = 0xCULL;
+	constexpr uint64_t ofHealth = 0xF8ULL;
+	constexpr uint64_t ofName = 0x225ULL;
+	constexpr uint64_t ofSpeed = 0x08ULL;
+	constexpr uint64_t ofViewMat = 0x501AE8ULL;
+	constexpr uint64_t ofEntity = 0x4ULL;
+	constexpr uint64_t ofPlayer = 0x509B74ULL;
+	constexpr uint64_t ofXPos = 0x4ULL;
+	constexpr uint64_t ofTeam = 0x32CULL;
+	constexpr uint64_t ofAmmo = 0x0150ULL;
+	constexpr uint64_t ofPlayerCount = 0xCULL;
 
 	const uint32_t playerCount = KnP::hook::memory::read_memory<uint32_t>(baseAddr + ofPlayerCount, pID);
 
@@ -104,6 +111,12 @@ int main()
 		for (uint32_t i = 0; i < playerCount; i++)
 		{
 			DWORD ent = KnP::hook::memory::read_memory<DWORD>(entityAddr + (ofEntity * i), pID);
+			const int hp = KnP::hook::memory::read_memory<int>(ent + ofHealth, pID);
+			if (hp <= 0)
+			{
+				continue;
+			}
+
 			const v3 pos = KnP::hook::memory::read_memory<v3>(ent + ofXPos, pID);
 			const uint32_t team = KnP::hook::memory::read_memory<uint32_t>(ent + ofTeam, pID);
 			v3 color = {255.f, 0.f ,0.f};
