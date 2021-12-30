@@ -11,7 +11,7 @@ Created to demonstrate KnPCore framework
 ## Build Instructions
 ```
 1. Open KnP.sln (VS2019)
-2. Build KnP/Package (x64, Release) (Requires Windows SDK and Windows WDK)
+2. Build Package (x64, Release) (Requires Windows SDK and Windows WDK)
 3. Build AssaultCube
 ```
 
