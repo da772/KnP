@@ -8,7 +8,7 @@
 namespace KnP
 {
 	namespace hook {
-		
+
 		extern char lib[255];
 		extern char module_name[255];
 
@@ -35,6 +35,7 @@ namespace KnP
 			std::string read_memory_string(UINT_PTR readAddr, ULONG pid);
 			std::wstring read_memory_wstring(UINT_PTR readAddr, ULONG pid);
 			void read_memory(UINT_PTR readAddr, void* output, size_t size, ULONG pid);
+			void write_memory(UINT_PTR writeAddr, void* input, size_t size, ULONG pid);
 			UINT_PTR scan_signature(UINT_PTR readAddr, ULONG size, const char* mask, ULONG pid);
 			KnP::memory::ModuleInfo get_module_information(const char* module_name, ULONG pid);
 
@@ -64,10 +65,9 @@ namespace KnP
 
 				KnP::memory::MEMORY instructions;
 				instructions.pid = pid;
-				instructions.size = sizeof(T);
+				instructions.action = ACTION_WRITE_KERNEL;
 
 				instructions.addr = writeAddr;
-				instructions.action = ACTION_WRITE_KERNEL;
 				instructions.buffer_addr = buffer;
 				instructions.size = sizeof(T);
 				KnP::hook::call_hook(&instructions);
