@@ -7,7 +7,8 @@ Framework for reading and writing memory from an unsigned kernel driver. Uses Kd
 2. Windows SDK
 3. Windows WDK
 ```
-
+## Examples
+- AssaultCube - https://github.com/da772/KnP/tree/AssaultCube
  
 ## Dependencies 
 - KDMapper - https://github.com/TheCruZ/kdmapper
