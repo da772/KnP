@@ -106,6 +106,29 @@ namespace KnP {
 			call_hook(&instructions);
 		}
 
+		void memory::write_memory(UINT_PTR writeAddr, void* input, size_t size, ULONG pid)
+		{
+			assert(size > 0);
+			if (size <= 0) return;
+			void* buffer = malloc(size);	
+
+			assert(buffer != NULL);
+			if (!buffer) return;
+
+			memcpy(buffer, input, size);
+
+			KnP::memory::MEMORY instructions;
+			instructions.pid = pid;
+			instructions.action = ACTION_WRITE_KERNEL;
+
+			instructions.addr = writeAddr;
+			instructions.buffer_addr = buffer;
+			instructions.size = size;
+			call_hook(&instructions);
+
+			free(buffer);
+		}
+
 		UINT_PTR memory::scan_signature(UINT_PTR readAddr, ULONG size, const char* mask, ULONG pid)
 		{
 			std::vector<uint16_t> data;
