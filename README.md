@@ -1,12 +1,10 @@
-# Assault Cube
+# Gta5
 External cheats for Gta5 single player
 - Faster run speed
 - Faster car acceleration
 - Unlimited health
 
 Created to demonstrate KnPCore framework
-
-![image](https://user-images.githubusercontent.com/8605626/147782382-7682af25-c4ad-4a39-8796-029c4589ec15.png)
 
 ## Build Instructions
 ```
