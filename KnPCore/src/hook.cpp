@@ -159,9 +159,9 @@ namespace KnP {
 				i++;
 			}
 
-			byte* buffer = (byte*)malloc(sizeof(byte) * data.size());
+			byte* buffer = (byte*)malloc(sizeof(byte) * size);
 			assert(buffer != NULL);
-
+			memory::read_memory(readAddr, buffer, size, pid);
 			for (size_t i = 0; i < size; i++)
 			{
 				if (i + data.size() > size)
@@ -169,7 +169,7 @@ namespace KnP {
 					break;
 				}
 
-				memory::read_memory(readAddr + i, buffer, data.size() * sizeof(byte), pid);
+				
 				bool found = true;
 
 				for (size_t j = 0; j < data.size(); j++)
@@ -179,7 +179,7 @@ namespace KnP {
 						continue;
 					}
 
-					if (buffer[i + j] != static_cast<byte>(data[j]))
+					if (buffer[i+j] != static_cast<byte>(data[j]))
 					{
 						found = false;
 						break;
