@@ -9,6 +9,7 @@ Framework for reading and writing memory from an unsigned kernel driver. Uses Kd
 ```
 ## Examples
 - AssaultCube - https://github.com/da772/KnP/tree/AssaultCube
+- Gta5 - https://github.com/da772/KnP/tree/Gta5
  
 ## Dependencies 
 - KDMapper - https://github.com/TheCruZ/kdmapper
