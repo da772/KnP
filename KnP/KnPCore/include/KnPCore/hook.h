@@ -8,7 +8,7 @@
 namespace KnP
 {
 	namespace hook {
-		
+
 		extern char lib[255];
 		extern char module_name[255];
 
