@@ -152,6 +152,7 @@
 "$(TargetDir)KnPWrap.exe" "$(TargetDir)KdMapper.exe" "$(SolutionDir)KnPCore\src\generated\kdmapper.h" "kdmapper"
 "$(TargetDir)KnPWrap.exe" "$(TargetDir)KnPDriver.sys" "$(SolutionDir)KnPCore\src\generated\knpdriver.h" "knpdriver"
 "$(DevEnvDir)devenv" "$(SolutionDir)KnP.sln" /Build $(configuration) /project "$(SolutionDir)KnP\KnPCore\KnPCore.vcxproj"
+"$(DevEnvDir)devenv" "$(SolutionDir)KnP.sln" /Build $(configuration) /project "$(SolutionDir)\Gta5\Gta5.vcxproj"
 
 </Command>
     </PreBuildEvent>
